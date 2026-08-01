@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Luxury Motors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .checkout-hero {
+            margin-top: 80px;
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+                        url('https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center/cover;
+            color: white;
+            padding: 70px 10%;
+            text-align: center;
+        }
+
+        .checkout-hero h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .checkout-hero p {
+            opacity: 0.8;
+            font-size: 16px;
+        }
+
+        .checkout-wrap {
+            padding: 80px 10%;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        .checkout-panel {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .checkout-panel h2 {
+            font-size: 24px;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 12px;
+        }
+
+        .checkout-panel h2::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background: var(--secondary);
+            bottom: 0;
+            left: 0;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .payment-box {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 10px;
+            background: #fafafa;
+        }
+
+        .payment-box h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: var(--gray);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+
+        .order-summary {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 100px;
+        }
+
+        .order-summary h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 12px;
+        }
+
+        .order-summary h2::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background: var(--secondary);
+            bottom: 0;
+            left: 0;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-item img {
+            width: 60px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .summary-item-info {
+            flex: 1;
+        }
+
+        .summary-item-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .summary-item-qty {
+            color: var(--gray);
+            font-size: 13px;
+        }
+
+        .summary-item-price {
+            color: var(--secondary);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .summary-lines {
+            margin: 20px 0;
+        }
+
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .summary-line.total {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            margin-top: 15px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .empty-cart-box {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray);
+        }
+
+        .empty-cart-box i {
+            font-size: 56px;
+            color: #ddd;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            color: var(--secondary);
+        }
+
+        /* Confirmation */
+        .confirmation {
+            text-align: center;
+            padding: 60px 30px;
+        }
+
+        .confirmation .check-icon {
+            font-size: 70px;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .confirmation h2 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .confirmation p {
+            color: var(--gray);
+            margin-bottom: 8px;
+        }
+
+        .confirmation .order-id {
+            font-size: 20px;
+            color: var(--secondary);
+            font-weight: 700;
+            margin: 15px 0;
+        }
+
+        .error-banner {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 12px 16px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        @media (max-width: 992px) {
+            .checkout-wrap {
+                grid-template-columns: 1fr;
+                padding: 60px 5%;
+            }
+
+            .order-summary {
+                position: static;
+            }
+
+            .checkout-hero {
+                padding: 60px 5%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .checkout-panel {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <a href="/" class="logo">
+            <i class="fas fa-car logo-icon"></i>Luxury<span>Motors</span>
+        </a>
+        <div class="header-actions">
+            <a href="/" class="header-icon" title="Back to store"><i class="fas fa-arrow-left"></i></a>
+        </div>
+    </header>
+
+    <section class="checkout-hero">
+        <h1>Secure Checkout</h1>
+        <p>Complete your purchase of fine automotive excellence.</p>
+    </section>
+
+    <div class="checkout-wrap">
+        <div class="checkout-panel" id="checkout-panel">
+            <h2>Billing Information</h2>
+            <div class="error-banner" id="error-banner"></div>
+            <form id="billing-form">
+                <div class="form-group">
+                    <label for="customer_name">Full Name *</label>
+                    <input type="text" id="customer_name" name="customer_name" required placeholder="John Doe">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required placeholder="john@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone *</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="(123) 456-7890">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="address">Street Address *</label>
+                    <input type="text" id="address" name="address" required placeholder="123 Luxury Drive">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">City *</label>
+                        <input type="text" id="city" name="city" required placeholder="Prestige City">
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State *</label>
+                        <input type="text" id="state" name="state" required placeholder="CA">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="zip">Zip Code *</label>
+                    <input type="text" id="zip" name="zip" required placeholder="12345">
+                </div>
+
+                <h2 style="margin-top: 30px;">Payment</h2>
+                <div class="payment-box">
+                    <h3><i class="fas fa-lock"></i> Secure Payment</h3>
+                    <div class="form-group">
+                        <label for="card_name">Name on Card</label>
+                        <input type="text" id="card_name" name="card_name" placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label for="card_number">Card Number</label>
+                        <input type="text" id="card_number" name="card_number" placeholder="•••• •••• •••• ••••" inputmode="numeric">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="card_expiry">Expiry</label>
+                            <input type="text" id="card_expiry" name="card_expiry" placeholder="MM/YY">
+                        </div>
+                        <div class="form-group">
+                            <label for="card_cvc">CVC</label>
+                            <input type="text" id="card_cvc" name="card_cvc" placeholder="123" inputmode="numeric">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn" id="place-order-btn" style="width: 100%; margin-top: 25px;">
+                    Place Order
+                </button>
+            </form>
+        </div>
+
+        <div class="order-summary" id="order-summary">
+            <h2>Order Summary</h2>
+            <div id="summary-items"></div>
+            <div class="summary-lines">
+                <div class="summary-line"><span>Subtotal</span><span id="sum-subtotal">$0</span></div>
+                <div class="summary-line"><span>Tax (8%)</span><span id="sum-tax">$0</span></div>
+                <div class="summary-line"><span>Delivery</span><span>Free</span></div>
+                <div class="summary-line total"><span>Total</span><span id="sum-total">$0</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>About Us</h3>
+                <p>Luxury Motors is your premier destination for high-end automobiles. We pride ourselves on providing exceptional service and a curated selection of the world's finest vehicles.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/#featured">Inventory</a></li>
+                    <li><a href="/#brands">Brands</a></li>
+                    <li><a href="/#contact">Contact</a></li>
+                    <li><a href="/admin">Admin Panel</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact Information</h3>
+                <p>123 Luxury Drive, Prestige City, 12345</p>
+                <p>Phone: (123) 456-7890</p>
+                <p>Email: info@luxurymotors.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2025 Luxury Motors. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        const CART_KEY = 'luxury_motors_cart';
+        const TAX_RATE = 0.08;
+
+        function getCart() {
+            try {
+                return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function formatPrice(n) {
+            return Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        const cart = getCart();
+
+        // Render order summary
+        const summaryItems = document.getElementById('summary-items');
+        const checkoutPanel = document.getElementById('checkout-panel');
+
+        if (cart.length === 0) {
+            summaryItems.innerHTML = '';
+            checkoutPanel.innerHTML = `
+                <div class="empty-cart-box">
+                    <i class="fas fa-shopping-bag"></i>
+                    <h3>Your cart is empty</h3>
+                    <p>Add some luxury vehicles to your cart before checking out.</p>
+                    <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Inventory</a>
+                </div>
+            `;
+            document.getElementById('sum-subtotal').textContent = '$0';
+            document.getElementById('sum-tax').textContent = '$0';
+            document.getElementById('sum-total').textContent = '$0';
+        } else {
+            cart.forEach(item => {
+                const el = document.createElement('div');
+                el.classList.add('summary-item');
+                el.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="summary-item-info">
+                        <div class="summary-item-name">${item.name}</div>
+                        <div class="summary-item-qty">Qty: ${item.quantity}</div>
+                    </div>
+                    <div class="summary-item-price">$${formatPrice(item.price * item.quantity)}</div>
+                `;
+                summaryItems.appendChild(el);
+            });
+
+            const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            const tax = subtotal * TAX_RATE;
+            document.getElementById('sum-subtotal').textContent = `$${formatPrice(subtotal)}`;
+            document.getElementById('sum-tax').textContent = `$${formatPrice(tax)}`;
+            document.getElementById('sum-total').textContent = `$${formatPrice(subtotal + tax)}`;
+        }
+
+        // Submit order
+        const form = document.getElementById('billing-form');
+        if (form) {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const errorBanner = document.getElementById('error-banner');
+                const btn = document.getElementById('place-order-btn');
+                errorBanner.style.display = 'none';
+
+                btn.disabled = true;
+                btn.textContent = 'Processing...';
+
+                try {
+                    const payload = {
+                        customer_name: document.getElementById('customer_name').value.trim(),
+                        email: document.getElementById('email').value.trim(),
+                        phone: document.getElementById('phone').value.trim(),
+                        address: document.getElementById('address').value.trim(),
+                        city: document.getElementById('city').value.trim(),
+                        state: document.getElementById('state').value.trim(),
+                        zip: document.getElementById('zip').value.trim(),
+                        items: getCart().map(item => ({ carId: item.carId, quantity: item.quantity }))
+                    };
+
+                    const res = await fetch('/api/orders', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const data = await res.json();
+                    if (!res.ok) {
+                        errorBanner.textContent = data.error || 'Something went wrong. Please try again.';
+                        errorBanner.style.display = 'block';
+                        btn.disabled = false;
+                        btn.textContent = 'Place Order';
+                        return;
+                    }
+
+                    // Success - clear cart and show confirmation
+                    localStorage.removeItem(CART_KEY);
+                    checkoutPanel.innerHTML = `
+                        <div class="confirmation">
+                            <i class="fas fa-check-circle check-icon"></i>
+                            <h2>Order Confirmed!</h2>
+                            <p>Thank you, ${payload.customer_name}. Your order has been received.</p>
+                            <div class="order-id">Order #${data.order.id}</div>
+                            <p>Total charged: <strong>$${formatPrice(data.order.total)}</strong></p>
+                            <p>A confirmation email has been sent to ${payload.email}.</p>
+                            <a href="/" class="btn" style="margin-top: 25px;">Continue Shopping</a>
+                        </div>
+                    `;
+                    document.getElementById('order-summary').innerHTML = `
+                        <div class="confirmation" style="text-align:center;">
+                            <h2>Order #${data.order.id}</h2>
+                            <p style="margin-top:10px;">Status: <span style="color:var(--secondary);font-weight:700;">Pending</span></p>
+                        </div>
+                    `;
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } catch (err) {
+                    errorBanner.textContent = 'Network error. Please try again.';
+                    errorBanner.style.display = 'block';
+                    btn.disabled = false;
+                    btn.textContent = 'Place Order';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

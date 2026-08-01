@@ -1,0 +1,23 @@
+{
+  "name": "luxury-motors",
+  "version": "1.0.0",
+  "description": "Luxury Motors premium automotive marketplace",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "seed": "node db.js"
+  },
+  "keywords": [
+    "cars",
+    "marketplace",
+    "ecommerce",
+    "luxury"
+  ],
+  "author": "Luxury Motors",
+  "license": "MIT",
+  "dependencies": {
+    "better-sqlite3": "^11.10.0",
+    "express": "^4.21.2"
+  }
+}

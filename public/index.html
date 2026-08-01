@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Motors | Premium Automotive Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            min-height: 800px;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1494972308805-463bc619d34e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+            color: white;
+            margin-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* Featured Cars */
+        .featured-cars {
+            background-color: white;
+        }
+
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .car-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .car-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .car-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .car-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .car-card:hover .car-img img {
+            transform: scale(1.05);
+        }
+
+        .car-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--secondary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .car-info {
+            padding: 20px;
+        }
+
+        .car-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .car-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .car-price {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .car-price span {
+            font-size: 14px;
+            color: var(--gray);
+            font-weight: 400;
+        }
+
+        .car-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .car-feature {
+            background: #f1f1f1;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .car-feature i {
+            margin-right: 5px;
+            color: var(--secondary);
+            font-size: 10px;
+        }
+
+        /* Brands Section */
+        .brands {
+            background: #f9f9f9;
+        }
+
+        .brand-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 30px;
+            align-items: center;
+        }
+
+        .brand-item {
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+        }
+
+        .brand-item:hover {
+            filter: grayscale(0);
+            opacity: 1;
+        }
+
+        .brand-item img {
+            max-width: 100%;
+            height: auto;
+            max-height: 60px;
+            object-fit: contain;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
+                        url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1883&q=80') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+        }
+
+        .testimonial-slider {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .testimonial-item {
+            padding: 30px;
+        }
+
+        .testimonial-text {
+            font-size: 20px;
+            font-style: italic;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .testimonial-text::before,
+        .testimonial-text::after {
+            content: '"';
+            font-size: 60px;
+            color: var(--secondary);
+            opacity: 0.3;
+            position: absolute;
+        }
+
+        .testimonial-text::before {
+            top: -20px;
+            left: -20px;
+        }
+
+        .testimonial-text::after {
+            bottom: -40px;
+            right: -20px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .author-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+
+        .author-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-info h4 {
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            opacity: 0.7;
+            font-size: 14px;
+        }
+
+        /* Call to Action */
+        .cta {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 80px 10%;
+        }
+
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.8;
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
+            z-index: 2000;
+            transition: var(--transition);
+            overflow-y: auto;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-header h3 {
+            font-size: 20px;
+        }
+
+        .close-cart {
+            font-size: 24px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-cart:hover {
+            color: var(--secondary);
+        }
+
+        .cart-items {
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-img {
+            width: 80px;
+            height: 60px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+
+        .cart-item-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+
+        .cart-item-price {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cart-qty {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cart-qty button {
+            width: 24px;
+            height: 24px;
+            border: 1px solid #ddd;
+            background: var(--light);
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--primary);
+            transition: var(--transition);
+            line-height: 1;
+        }
+
+        .cart-qty button:hover {
+            background: var(--secondary);
+            border-color: var(--secondary);
+            color: white;
+        }
+
+        .cart-qty span {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .cart-item-remove {
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+            margin-left: 10px;
+        }
+
+        .cart-item-remove:hover {
+            color: #dc3545;
+        }
+
+        .cart-summary {
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--secondary);
+            color: var(--primary);
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+        }
+
+        .checkout-btn:hover {
+            background: #c9a227;
+        }
+
+        .cart-empty {
+            text-align: center;
+            color: var(--gray);
+            padding: 40px 0;
+        }
+
+        .cart-empty i {
+            font-size: 48px;
+            color: #ddd;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--dark);
+            color: white;
+            padding: 14px 24px;
+            border-radius: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            z-index: 3000;
+            opacity: 0;
+            transition: var(--transition);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 48px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                min-height: 600px;
+                padding: 0 5%;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <a href="/" class="logo">
+            <i class="fas fa-car logo-icon"></i>Luxury<span>Motors</span>
+        </a>
+        
+        <nav id="nav">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#featured">Inventory</a></li>
+                <li><a href="#brands">Brands</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        
+        <div class="header-actions">
+            <div class="header-icon cart-btn" title="Shopping Cart">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+            <div class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content fade-in">
+            <h1>Exquisite Automotive Masterpieces</h1>
+            <p>Discover the pinnacle of automotive luxury with our curated collection of the world's most prestigious vehicles.</p>
+            <div class="btn-group">
+                <a href="#featured" class="btn">Browse Collection</a>
+                <a href="#contact" class="btn btn-outline">Contact Us</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Featured Cars -->
+    <section class="section featured-cars" id="featured">
+        <div class="section-title fade-in">
+            <h2>Featured Luxury Vehicles</h2>
+            <p>Explore our exclusive selection of premium automobiles from the world's most prestigious manufacturers.</p>
+        </div>
+        
+        <div class="car-grid" id="car-grid">
+            <div class="cart-empty" style="grid-column: 1 / -1;">
+                <i class="fas fa-spinner fa-spin"></i>
+                Loading inventory...
+            </div>
+        </div>
+    </section>
+    
+    <!-- Brands Section -->
+    <section class="section brands" id="brands">
+        <div class="section-title fade-in">
+            <h2>Our Premium Brands</h2>
+            <p>We partner with the world's most prestigious automotive manufacturers to bring you exceptional vehicles.</p>
+        </div>
+        
+        <div class="brand-grid">
+            <div class="brand-item fade-in delay-1">
+                <img src="assets/brands/bmw.png" alt="BMW">
+            </div>
+            <div class="brand-item fade-in delay-2">
+                <img src="assets/brands/mercedes-benz.png" alt="Mercedes-Benz">
+            </div>
+            <div class="brand-item fade-in delay-3">
+                <img src="assets/brands/audi.png" alt="Audi">
+            </div>
+            <div class="brand-item fade-in delay-1">
+                <img src="assets/brands/porsche.png" alt="Porsche">
+            </div>
+            <div class="brand-item fade-in delay-2">
+                <img src="assets/brands/lexus.png" alt="Lexus">
+            </div>
+            <div class="brand-item fade-in delay-3">
+                <img src="assets/brands/land-rover.png" alt="Land Rover">
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonials -->
+    <section class="section testimonials" id="testimonials">
+        <div class="section-title fade-in">
+            <h2>Client Testimonials</h2>
+            <p>Hear what our valued clients have to say about their Luxury Motors experience.</p>
+        </div>
+        
+        <div class="testimonial-slider">
+            <div class="testimonial-item">
+                <div class="testimonial-text">
+                    "Luxury Motors provided an unparalleled experience. From the moment I walked in, I was treated with the utmost respect and professionalism. The selection of vehicles was impressive, and the staff went above and beyond to ensure I found the perfect car."
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-img">
+                        <img src="https://images.unsplash.com/photo-1531746020798-e69b480b7925?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Author">
+                    </div>
+                    <div class="author-info">
+                        <h4>John Doe</h4>
+                        <p>Happy Customer</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-item">
+                <div class="testimonial-text">
+                    "I couldn't be happier with my purchase from Luxury Motors. The entire process was seamless, and the team was incredibly knowledgeable and helpful. I highly recommend this dealership to anyone looking for a luxury vehicle."
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-img">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd722cdac?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Author">
+                    </div>
+                    <div class="author-info">
+                        <h4>Jane Smith</h4>
+                        <p>Thrilled Owner</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Call to Action -->
+    <section class="section cta" id="contact">
+        <div class="section-title fade-in">
+            <h2>Ready to Drive Luxury?</h2>
+            <p>Get in touch with us today to schedule a test drive or inquire about our collection.</p>
+        </div>
+        
+        <div class="btn-group">
+            <a href="#contact" class="btn">Contact Us</a>
+            <a href="#featured" class="btn btn-outline">View Inventory</a>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>About Us</h3>
+                <p>Luxury Motors is your premier destination for high-end automobiles. We pride ourselves on providing exceptional service and a curated selection of the world's finest vehicles.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#featured">Inventory</a></li>
+                    <li><a href="#brands">Brands</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="/admin">Admin Panel</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Contact Information</h3>
+                <p>123 Luxury Drive, Prestige City, 12345</p>
+                <p>Phone: (123) 456-7890</p>
+                <p>Email: info@luxurymotors.com</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            &copy; 2025 Luxury Motors. All rights reserved.
+        </div>
+    </footer>
+    
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <div class="close-cart" id="close-cart-btn">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        
+        <div class="cart-items" id="cart-items"></div>
+        
+        <div class="cart-summary">
+            <div class="cart-total">
+                <span>Total</span>
+                <span id="cart-total-price">$0</span>
+            </div>
+            <button class="checkout-btn" id="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </div>
+    
+    <div class="overlay" id="overlay"></div>
+    <div class="toast" id="toast"></div>
+    
+    <script>
+        const CART_KEY = 'luxury_motors_cart';
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const overlay = document.getElementById('overlay');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartTotalPrice = document.getElementById('cart-total-price');
+        const cartCount = document.getElementById('cart-count');
+        const toast = document.getElementById('toast');
+
+        // ---------- Cart helpers ----------
+        function getCart() {
+            try {
+                return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem(CART_KEY, JSON.stringify(cart));
+            updateCart();
+        }
+
+        function addToCart(carId, carName, price, image) {
+            const cart = getCart();
+            const existing = cart.find(item => item.carId === carId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ carId, name: carName, price, image, quantity: 1 });
+            }
+            saveCart(cart);
+            showToast(`${carName} added to cart`);
+        }
+
+        function updateCart() {
+            const cart = getCart();
+            const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalQty;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<div class="cart-empty"><i class="fas fa-shopping-bag"></i>Your cart is empty.</div>';
+                cartTotalPrice.textContent = '$0';
+                return;
+            }
+
+            cartItemsContainer.innerHTML = '';
+            cart.forEach(item => {
+                const el = document.createElement('div');
+                el.classList.add('cart-item');
+
+                const imgWrap = document.createElement('div');
+                imgWrap.classList.add('cart-item-img');
+                imgWrap.innerHTML = `<img src="${item.image}" alt="${item.name}">`;
+
+                const details = document.createElement('div');
+                details.classList.add('cart-item-details');
+                details.innerHTML = `
+                    <h3 class="cart-item-title">${item.name}</h3>
+                    <div class="cart-item-price">$${formatPrice(item.price)}</div>
+                    <div class="cart-qty">
+                        <button class="qty-minus" data-id="${item.carId}"><i class="fas fa-minus"></i></button>
+                        <span>${item.quantity}</span>
+                        <button class="qty-plus" data-id="${item.carId}"><i class="fas fa-plus"></i></button>
+                    </div>
+                `;
+
+                const remove = document.createElement('div');
+                remove.classList.add('cart-item-remove');
+                remove.innerHTML = `<i class="fas fa-trash-alt" data-id="${item.carId}"></i>`;
+
+                el.appendChild(imgWrap);
+                el.appendChild(details);
+                el.appendChild(remove);
+                cartItemsContainer.appendChild(el);
+            });
+
+            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            cartTotalPrice.textContent = `$${formatPrice(total)}`;
+
+            // Wire quantity controls
+            cartItemsContainer.querySelectorAll('.qty-plus').forEach(btn => {
+                btn.addEventListener('click', () => changeQuantity(parseInt(btn.dataset.id), 1));
+            });
+            cartItemsContainer.querySelectorAll('.qty-minus').forEach(btn => {
+                btn.addEventListener('click', () => changeQuantity(parseInt(btn.dataset.id), -1));
+            });
+            cartItemsContainer.querySelectorAll('.cart-item-remove i').forEach(icon => {
+                icon.addEventListener('click', () => removeFromCart(parseInt(icon.dataset.id)));
+            });
+        }
+
+        function changeQuantity(carId, delta) {
+            const cart = getCart();
+            const item = cart.find(i => i.carId === carId);
+            if (!item) return;
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                saveCart(cart.filter(i => i.carId !== carId));
+            } else {
+                saveCart(cart);
+            }
+        }
+
+        function removeFromCart(carId) {
+            saveCart(getCart().filter(i => i.carId !== carId));
+        }
+
+        function formatPrice(n) {
+            return Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        let toastTimer;
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+        }
+
+        // ---------- Toggle mobile menu ----------
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const nav = document.getElementById('nav');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            overlay.classList.toggle('active');
+        });
+
+        // ---------- Toggle cart sidebar ----------
+        const cartBtn = document.querySelector('.cart-btn');
+        const closeCartBtn = document.getElementById('close-cart-btn');
+
+        cartBtn.addEventListener('click', () => {
+            cartSidebar.classList.add('open');
+            overlay.classList.add('active');
+        });
+
+        closeCartBtn.addEventListener('click', () => {
+            cartSidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            nav.classList.remove('active');
+            cartSidebar.classList.remove('open');
+            overlay.classList.remove('active');
+        });
+
+        // ---------- Load cars from API ----------
+        function fuelIcon(fuel) {
+            if (fuel === 'Electric') return 'fa-charging-station';
+            return 'fa-gas-pump';
+        }
+
+        async function loadCars() {
+            const grid = document.getElementById('car-grid');
+            try {
+                const res = await fetch('/api/cars');
+                const cars = await res.json();
+                grid.innerHTML = '';
+                cars.forEach((car, index) => {
+                    const delay = `delay-${(index % 3) + 1}`;
+                    const badge = car.badge ? `<div class="car-badge">${car.badge}</div>` : '';
+                    const card = document.createElement('div');
+                    card.className = `car-card fade-in ${delay}`;
+                    card.innerHTML = `
+                        <div class="car-img">
+                            <img src="${car.image}" alt="${car.name}" loading="lazy">
+                            ${badge}
+                        </div>
+                        <div class="car-info">
+                            <div class="car-meta">
+                                <span><i class="fas fa-calendar-alt"></i> ${car.year}</span>
+                                <span><i class="fas fa-tachometer-alt"></i> ${Number(car.mileage).toLocaleString()} mi</span>
+                            </div>
+                            <h3 class="car-title">${car.name}</h3>
+                            <div class="car-price">$${Number(car.price).toLocaleString()} <span>/ MSRP $${Number(car.msrp).toLocaleString()}</span></div>
+                            <div class="car-features">
+                                <span class="car-feature"><i class="fas fa-bolt"></i> ${car.hp} HP</span>
+                                <span class="car-feature"><i class="fas fa-cogs"></i> ${car.transmission}</span>
+                                <span class="car-feature"><i class="fas ${fuelIcon(car.fuel)}"></i> ${car.fuel}</span>
+                            </div>
+                            <button class="btn add-to-cart" data-id="${car.id}" data-name="${car.name}" data-price="${car.price}" data-image="${car.image}">Add to Cart</button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+
+                grid.querySelectorAll('.add-to-cart').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        addToCart(
+                            parseInt(btn.dataset.id),
+                            btn.dataset.name,
+                            parseFloat(btn.dataset.price),
+                            btn.dataset.image
+                        );
+                    });
+                });
+            } catch (err) {
+                grid.innerHTML = '<div class="cart-empty" style="grid-column: 1 / -1;"><i class="fas fa-exclamation-triangle"></i>Failed to load inventory. Is the server running?</div>';
+            }
+        }
+
+        // ---------- Checkout ----------
+        document.getElementById('checkout-btn').addEventListener('click', () => {
+            const cart = getCart();
+            if (cart.length === 0) {
+                showToast('Your cart is empty!');
+                return;
+            }
+            window.location.href = '/checkout';
+        });
+
+        // ---------- Scroll header effect ----------
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        updateCart();
+        loadCars();
+    </script>
+</body>
+</html>

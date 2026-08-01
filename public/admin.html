@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Luxury Motors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .admin-hero {
+            margin-top: 80px;
+            background: var(--primary);
+            color: white;
+            padding: 45px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .admin-hero h1 {
+            font-size: 34px;
+            margin-bottom: 5px;
+        }
+
+        .admin-hero h1 span {
+            color: var(--secondary);
+        }
+
+        .admin-hero p {
+            opacity: 0.7;
+            font-size: 14px;
+        }
+
+        .admin-content {
+            padding: 50px 5%;
+        }
+
+        /* Login */
+        .login-wrap {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 5%;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                        url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1883&q=80') no-repeat center center/cover;
+            margin-top: 80px;
+        }
+
+        .login-box {
+            background: white;
+            border-radius: 10px;
+            padding: 45px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-box .logo-icon {
+            font-size: 34px;
+            display: block;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .login-box h2 {
+            text-align: center;
+            font-size: 26px;
+            margin-bottom: 8px;
+        }
+
+        .login-box p {
+            text-align: center;
+            color: var(--gray);
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .login-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 10px 14px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            display: none;
+        }
+
+        /* Stat cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--secondary);
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .stat-icon {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 28px;
+            color: rgba(212, 175, 55, 0.25);
+        }
+
+        /* Dashboard grid */
+        .dash-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .panel {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .panel h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .panel h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background: var(--secondary);
+            bottom: 0;
+            left: 0;
+        }
+
+        /* Bar chart */
+        .chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 18px;
+            height: 200px;
+            padding-top: 20px;
+        }
+
+        .chart-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            height: 100%;
+        }
+
+        .chart-bar-wrap {
+            width: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .chart-bar {
+            width: 70%;
+            max-width: 55px;
+            background: linear-gradient(to top, #b8962e, var(--secondary));
+            border-radius: 6px 6px 0 0;
+            min-height: 4px;
+            transition: height 0.6s ease;
+            position: relative;
+        }
+
+        .chart-bar:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: -34px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark);
+            color: white;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+            z-index: 5;
+        }
+
+        .chart-label {
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--gray);
+            font-weight: 600;
+        }
+
+        /* Status breakdown */
+        .status-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .status-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .status-name {
+            flex: 1;
+            font-size: 14px;
+            text-transform: capitalize;
+        }
+
+        .status-count {
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .status-total {
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        /* Top cars */
+        .top-car-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .top-car-row:last-child {
+            border-bottom: none;
+        }
+
+        .top-car-rank {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .top-car-name {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .top-car-sold {
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .top-car-revenue {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        /* Orders table */
+        .orders-panel h3 {
+            margin-bottom: 15px;
+        }
+
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .status-filter {
+            padding: 9px 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .orders-table th {
+            text-align: left;
+            padding: 12px 14px;
+            background: #f8f9fa;
+            color: var(--gray);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #eee;
+            white-space: nowrap;
+        }
+
+        .orders-table td {
+            padding: 14px;
+            border-bottom: 1px solid #f1f1f1;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        .orders-table tr:hover td {
+            background: #fafafa;
+        }
+
+        .order-id-cell {
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .customer-cell .c-name {
+            font-weight: 600;
+        }
+
+        .customer-cell .c-email {
+            color: var(--gray);
+            font-size: 12px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-confirmed { background: #d1ecf1; color: #0c5460; }
+        .status-shipped { background: #d6d8db; color: #383d41; }
+        .status-delivered { background: #d4edda; color: #155724; }
+        .status-cancelled { background: #f8d7da; color: #721c24; }
+
+        .status-select {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .items-toggle {
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .items-toggle:hover {
+            color: var(--secondary);
+        }
+
+        .items-row {
+            display: none;
+            background: #fafafa;
+        }
+
+        .items-row.open {
+            display: table-row;
+        }
+
+        .items-row td {
+            padding: 15px 20px;
+        }
+
+        .order-item-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px dashed #eee;
+            font-size: 13px;
+        }
+
+        .order-item-line:last-child {
+            border-bottom: none;
+        }
+
+        .no-orders {
+            text-align: center;
+            color: var(--gray);
+            padding: 40px;
+            font-size: 15px;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn-sm {
+            padding: 9px 20px;
+            font-size: 13px;
+        }
+
+        .loading {
+            text-align: center;
+            color: var(--gray);
+            padding: 40px;
+        }
+
+        @media (max-width: 992px) {
+            .dash-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <a href="/" class="logo">
+            <i class="fas fa-car logo-icon"></i>Luxury<span>Motors</span> <span style="font-size: 12px; margin-left: 10px; background: var(--secondary); color: white; padding: 3px 8px; border-radius: 20px;">Admin</span>
+        </a>
+        <div class="header-actions">
+            <a href="/" class="header-icon" title="View Store"><i class="fas fa-store"></i></a>
+            <div class="header-icon" id="logout-btn" title="Logout" style="display: none;"><i class="fas fa-sign-out-alt"></i></div>
+        </div>
+    </header>
+
+    <!-- Login view -->
+    <div class="login-wrap" id="login-view">
+        <div class="login-box">
+            <i class="fas fa-car logo-icon" style="color: var(--secondary);"></i>
+            <h2>Admin Login</h2>
+            <p>Enter your credentials to access the dashboard.</p>
+            <div class="login-error" id="login-error"></div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="admin-password">Password</label>
+                    <input type="password" id="admin-password" placeholder="Enter admin password" required>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard view -->
+    <div id="dashboard-view" style="display: none;">
+        <section class="admin-hero">
+            <div>
+                <h1>Dashboard</h1>
+                <p>Manage your store's orders, revenue and inventory.</p>
+            </div>
+            <div class="admin-actions">
+                <button class="btn btn-sm" id="refresh-btn"><i class="fas fa-sync-alt"></i> Refresh</button>
+            </div>
+        </section>
+
+        <div class="admin-content">
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-dollar-sign stat-icon"></i>
+                    <div class="stat-label">Total Revenue</div>
+                    <div class="stat-value" id="stat-revenue">$0</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-shopping-bag stat-icon"></i>
+                    <div class="stat-label">Total Orders</div>
+                    <div class="stat-value" id="stat-orders">0</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-hourglass-half stat-icon"></i>
+                    <div class="stat-label">Pending Orders</div>
+                    <div class="stat-value" id="stat-pending">0</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-car stat-icon"></i>
+                    <div class="stat-label">Cars in Inventory</div>
+                    <div class="stat-value" id="stat-cars">0</div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="dash-grid">
+                <div class="panel">
+                    <h3>Revenue (Last 6 Months)</h3>
+                    <div class="chart" id="revenue-chart">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <h3>Orders by Status</h3>
+                    <div class="status-list" id="status-list">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dash-grid">
+                <div class="panel">
+                    <h3>Top Selling Vehicles</h3>
+                    <div id="top-cars-list">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+                <div class="panel">
+                    <h3>Recent Sales Breakdown</h3>
+                    <div id="recent-breakdown">
+                        <div class="loading">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders table -->
+            <div class="panel orders-panel">
+                <h3>Orders</h3>
+                <div class="filter-bar">
+                    <select id="status-filter" class="status-filter">
+                        <option value="all">All Statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="table-wrap">
+                    <table class="orders-table">
+                        <thead>
+                            <tr>
+                                <th>Order</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-body">
+                            <tr><td colspan="7" class="no-orders">Loading orders...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const TOKEN_KEY = 'luxury_motors_admin_token';
+        const loginView = document.getElementById('login-view');
+        const dashboardView = document.getElementById('dashboard-view');
+        const logoutBtn = document.getElementById('logout-btn');
+        const loginError = document.getElementById('login-error');
+
+        const token = () => localStorage.getItem(TOKEN_KEY) || '';
+
+        function apiHeaders() {
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token()}`
+            };
+        }
+
+        function formatPrice(n) {
+            return Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function formatDate(d) {
+            return new Date(d).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        }
+
+        function showLogin() {
+            loginView.style.display = 'flex';
+            dashboardView.style.display = 'none';
+            logoutBtn.style.display = 'none';
+        }
+
+        function showDashboard() {
+            loginView.style.display = 'none';
+            dashboardView.style.display = 'block';
+            logoutBtn.style.display = 'block';
+            loadDashboard();
+        }
+
+        // ---------- Login ----------
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            loginError.style.display = 'none';
+            try {
+                const res = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: document.getElementById('admin-password').value })
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    loginError.textContent = data.error || 'Login failed.';
+                    loginError.style.display = 'block';
+                    return;
+                }
+                localStorage.setItem(TOKEN_KEY, data.token);
+                document.getElementById('admin-password').value = '';
+                showDashboard();
+            } catch (err) {
+                loginError.textContent = 'Network error. Please try again.';
+                loginError.style.display = 'block';
+            }
+        });
+
+        logoutBtn.addEventListener('click', async () => {
+            try {
+                await fetch('/api/admin/logout', { method: 'POST', headers: apiHeaders() });
+            } catch (e) {}
+            localStorage.removeItem(TOKEN_KEY);
+            showLogin();
+        });
+
+        // ---------- Dashboard data ----------
+        async function loadDashboard() {
+            try {
+                const res = await fetch('/api/admin/dashboard', { headers: apiHeaders() });
+                if (res.status === 401) {
+                    localStorage.removeItem(TOKEN_KEY);
+                    showLogin();
+                    loginError.textContent = 'Session expired. Please log in again.';
+                    loginError.style.display = 'block';
+                    return;
+                }
+                if (!res.ok) throw new Error('Failed');
+                const data = await res.json();
+
+                document.getElementById('stat-revenue').textContent = `$${formatPrice(data.stats.totalRevenue)}`;
+                document.getElementById('stat-orders').textContent = data.stats.totalOrders;
+                document.getElementById('stat-pending').textContent = data.stats.pendingOrders;
+                document.getElementById('stat-cars').textContent = data.stats.totalCars;
+
+                renderChart(data.monthlyRevenue);
+                renderStatusList(data.byStatus);
+                renderTopCars(data.topCars);
+                renderRecent(data);
+                loadOrders();
+            } catch (err) {
+                console.error('Dashboard load failed:', err);
+            }
+        }
+
+        function renderChart(monthly) {
+            const chart = document.getElementById('revenue-chart');
+            chart.innerHTML = '';
+            if (!monthly.length) {
+                chart.innerHTML = '<div class="no-orders">No revenue data yet.</div>';
+                return;
+            }
+            const max = Math.max(...monthly.map(m => m.total), 1);
+            monthly.forEach(m => {
+                const col = document.createElement('div');
+                col.classList.add('chart-col');
+                const wrap = document.createElement('div');
+                wrap.classList.add('chart-bar-wrap');
+                const bar = document.createElement('div');
+                bar.classList.add('chart-bar');
+                const height = Math.max(4, Math.round((m.total / max) * 160));
+                bar.style.height = `${height}px`;
+                bar.dataset.tooltip = `$${formatPrice(m.total)}`;
+                wrap.appendChild(bar);
+                const label = document.createElement('div');
+                label.classList.add('chart-label');
+                const [y, mo] = m.month.split('-');
+                label.textContent = `${new Date(0, parseInt(mo) - 1).toLocaleString('en-US', { month: 'short' })} '${y.slice(2)}`;
+                col.appendChild(wrap);
+                col.appendChild(label);
+                chart.appendChild(col);
+            });
+        }
+
+        const STATUS_COLORS = {
+            pending: '#ffc107',
+            confirmed: '#17a2b8',
+            shipped: '#6c757d',
+            delivered: '#28a745',
+            cancelled: '#dc3545'
+        };
+
+        function renderStatusList(byStatus) {
+            const list = document.getElementById('status-list');
+            list.innerHTML = '';
+            const order = ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'];
+            const map = {};
+            byStatus.forEach(s => { map[s.status] = s; });
+            let hasData = false;
+            order.forEach(status => {
+                const s = map[status];
+                const count = s ? s.count : 0;
+                const total = s ? s.total : 0;
+                if (count === 0 && !s) return;
+                hasData = true;
+                const row = document.createElement('div');
+                row.classList.add('status-row');
+                row.innerHTML = `
+                    <span class="status-dot" style="background: ${STATUS_COLORS[status]};"></span>
+                    <span class="status-name">${status}</span>
+                    <span class="status-count">${count}</span>
+                    <span class="status-total">$${formatPrice(total)}</span>
+                `;
+                list.appendChild(row);
+            });
+            if (!hasData) {
+                list.innerHTML = '<div class="no-orders">No orders yet.</div>';
+            }
+        }
+
+        function renderTopCars(topCars) {
+            const list = document.getElementById('top-cars-list');
+            list.innerHTML = '';
+            if (!topCars.length) {
+                list.innerHTML = '<div class="no-orders">No sales yet.</div>';
+                return;
+            }
+            topCars.forEach((car, i) => {
+                const row = document.createElement('div');
+                row.classList.add('top-car-row');
+                row.innerHTML = `
+                    <span class="top-car-rank">${i + 1}</span>
+                    <span class="top-car-name">${car.car_name}</span>
+                    <span class="top-car-sold">${car.sold} sold</span>
+                    <span class="top-car-revenue">$${formatPrice(car.revenue)}</span>
+                `;
+                list.appendChild(row);
+            });
+        }
+
+        function renderRecent(data) {
+            const box = document.getElementById('recent-breakdown');
+            box.innerHTML = '';
+            const list = [
+                { label: 'Vehicles sold', value: data.stats.totalItemsSold, icon: 'fa-car' },
+                { label: 'Active inventory value', value: `$${formatPrice(0)}`, icon: 'fa-warehouse', hide: true },
+                { label: 'Avg. order value', value: data.stats.totalOrders ? `$${formatPrice(data.stats.totalRevenue / data.stats.totalOrders)}` : '$0', icon: 'fa-chart-line' },
+                { label: 'Cancelled orders', value: (data.byStatus.find(s => s.status === 'cancelled') || { count: 0 }).count, icon: 'fa-ban' }
+            ];
+            list.filter(l => !l.hide).forEach(item => {
+                const row = document.createElement('div');
+                row.classList.add('top-car-row');
+                row.innerHTML = `
+                    <span class="top-car-rank"><i class="fas ${item.icon}" style="font-size:12px;"></i></span>
+                    <span class="top-car-name">${item.label}</span>
+                    <span class="top-car-revenue">${item.value}</span>
+                `;
+                box.appendChild(row);
+            });
+        }
+
+        // ---------- Orders ----------
+        async function loadOrders() {
+            const status = document.getElementById('status-filter').value;
+            const body = document.getElementById('orders-body');
+            body.innerHTML = '<tr><td colspan="7" class="no-orders">Loading orders...</td></tr>';
+            try {
+                const res = await fetch(`/api/admin/orders?status=${encodeURIComponent(status)}`, { headers: apiHeaders() });
+                if (res.status === 401) {
+                    localStorage.removeItem(TOKEN_KEY);
+                    showLogin();
+                    return;
+                }
+                if (!res.ok) throw new Error('Failed');
+                const orders = await res.json();
+                body.innerHTML = '';
+                if (!orders.length) {
+                    body.innerHTML = '<tr><td colspan="7" class="no-orders">No orders found.</td></tr>';
+                    return;
+                }
+                orders.forEach(order => {
+                    const tr = document.createElement('tr');
+                    const itemCount = order.items.reduce((s, i) => s + i.quantity, 0);
+                    tr.innerHTML = `
+                        <td class="order-id-cell">#${order.id}</td>
+                        <td class="customer-cell">
+                            <div class="c-name">${order.customer_name}</div>
+                            <div class="c-email">${order.email}</div>
+                        </td>
+                        <td>${formatDate(order.created_at)}</td>
+                        <td>${itemCount} item(s)</td>
+                        <td><strong>$${formatPrice(order.total)}</strong></td>
+                        <td>
+                            <span class="status-badge status-${order.status}">${order.status}</span>
+                            <select class="status-select" data-order-id="${order.id}">
+                                ${['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'].map(s =>
+                                    `<option value="${s}" ${s === order.status ? 'selected' : ''}>${s}</option>`
+                                ).join('')}
+                            </select>
+                        </td>
+                        <td>
+                            <span class="items-toggle" data-order-id="${order.id}" title="View items"><i class="fas fa-chevron-down"></i></span>
+                        </td>
+                    `;
+                    body.appendChild(tr);
+
+                    // Items detail row
+                    const itemsRow = document.createElement('tr');
+                    itemsRow.classList.add('items-row');
+                    itemsRow.id = `items-row-${order.id}`;
+                    const lines = order.items.map(i =>
+                        `<div class="order-item-line"><span>${i.car_name} &times; ${i.quantity}</span><span>$${formatPrice(i.price * i.quantity)}</span></div>`
+                    ).join('');
+                    itemsRow.innerHTML = `
+                        <td colspan="7">
+                            <strong style="color: var(--gray); font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Order Items</strong>
+                            <div style="margin-top: 8px;">${lines}</div>
+                            <div style="margin-top: 8px; font-size: 13px; color: var(--gray);">
+                                Subtotal: <strong>$${formatPrice(order.subtotal)}</strong> | Tax: <strong>$${formatPrice(order.tax)}</strong>
+                            </div>
+                            <div style="margin-top: 5px; font-size: 13px; color: var(--gray);">
+                                Ship to: ${order.address}, ${order.city}, ${order.state} ${order.zip} | Phone: ${order.phone}
+                            </div>
+                        </td>
+                    `;
+                    body.appendChild(itemsRow);
+                });
+
+                // Wire up toggle
+                body.querySelectorAll('.items-toggle').forEach(toggle => {
+                    toggle.addEventListener('click', () => {
+                        const row = document.getElementById(`items-row-${toggle.dataset.orderId}`);
+                        row.classList.toggle('open');
+                        const icon = toggle.querySelector('i');
+                        icon.classList.toggle('fa-chevron-down');
+                        icon.classList.toggle('fa-chevron-up');
+                    });
+                });
+
+                // Wire up status change
+                body.querySelectorAll('.status-select').forEach(select => {
+                    select.addEventListener('change', async () => {
+                        const prev = select.value;
+                        try {
+                            const res = await fetch(`/api/admin/orders/${select.dataset.orderId}/status`, {
+                                method: 'PATCH',
+                                headers: apiHeaders(),
+                                body: JSON.stringify({ status: select.value })
+                            });
+                            if (!res.ok) throw new Error('Failed');
+                            loadDashboard();
+                        } catch (err) {
+                            select.value = prev;
+                            alert('Failed to update order status.');
+                        }
+                    });
+                });
+            } catch (err) {
+                body.innerHTML = '<tr><td colspan="7" class="no-orders">Failed to load orders.</td></tr>';
+            }
+        }
+
+        document.getElementById('status-filter').addEventListener('change', loadOrders);
+        document.getElementById('refresh-btn').addEventListener('click', () => {
+            loadDashboard();
+        });
+
+        // ---------- Init ----------
+        if (token()) {
+            showDashboard();
+        } else {
+            showLogin();
+        }
+    </script>
+</body>
+</html>
